@@ -11,9 +11,11 @@ namespace WebApp.Controllers
 	{
 		public ActionResult Index()
 		{
-			Staff s = new Staff();
-			List<Staff> staffList = new List<Staff>(s.GetPerson());
-			ViewBag.StaffList = staffList;
+			ViewBag.StaffList = StaffContext.GetAllStaff();
+			ViewBag.OperationTypeList = OperationTypeContext.GetAllOperationTypes();
+			ViewBag.CashBoxList = CashBoxContext.GetAllCashBox();
+			ViewBag.ContractsList = ContractContext.GetAllContracts();
+			ViewBag.LogBookList = LogBookContext.GetAllLogBooks();
 			return View();
 		}
 	}

@@ -4,32 +4,32 @@ using MySql.Data.MySqlClient;
 
 namespace WebApp.Models
 {
-	public class Staff
+	public class CashBox
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
 	}
 
-	public static class StaffContext
+	public static class CashBoxContext
 	{
-		public static List<Staff> GetAllStaff()
+		public static List<CashBox> GetAllCashBox()
 		{
 			MySqlConnection conn = DbConnection.Get_Connection();
 			conn.Open();
-
-			List<Staff> staffList = new List<Staff>();
+			List<CashBox> cashBoxList = new List<CashBox>();
+			
 			try
 			{
 				MySqlCommand cmd = new MySqlCommand();
 				cmd.Connection = conn;
-				cmd.CommandText = String.Format("SELECT * FROM staff");
+				cmd.CommandText = String.Format("SELECT * FROM cashbox");
 
 				MySqlDataReader reader = cmd.ExecuteReader();
 				try
 				{
 					while (reader.Read())
 					{
-						staffList.Add(new Staff
+						cashBoxList.Add(new CashBox
 						{
 							Id = Int32.Parse(reader[0].ToString()),
 							Name = reader[1].ToString()
@@ -51,7 +51,7 @@ namespace WebApp.Models
 			}
 
 			conn.Close();
-			return staffList;
+			return cashBoxList;
 		}
 	}
 }
