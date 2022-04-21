@@ -1,0 +1,27 @@
+﻿@using WebApp.Models
+@{
+    ViewBag.Title = "Home Page";
+}
+<br>
+<br>
+<br>
+<br>
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Staff s in ViewBag.StaffList)
+        {
+            <tr>
+                <td>@s.Id</td>
+                <td>@s.Name</td>
+            </tr>   
+        }
+        </tbody>
+    </table>
+</div>
