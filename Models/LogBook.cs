@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Web.WebPages;
 using MySql.Data.MySqlClient;
 
 namespace WebApp.Models
@@ -12,7 +13,7 @@ namespace WebApp.Models
 		public string NameCashBox { get; set; }
 		
 		public int IdContract { get; set; }
-		public string LDate { get; set; }
+		public DateTime LDate { get; set; }
 	}
 
 	public static class LogBookContext
@@ -27,9 +28,9 @@ namespace WebApp.Models
 			{
 				MySqlCommand cmd = new MySqlCommand();
 				cmd.Connection = conn;
-				cmd.CommandText = String.Format("SELECT lb.*, c.name FROM logbook as lb " +
-												"JOIN cashbox c on c.id = lb.id_cashbox " +
-												"ORDER BY lb.id");
+				cmd.CommandText = "SELECT lb.*, c.name FROM logbook as lb " +
+									"JOIN cashbox c on c.id = lb.id_cashbox " +
+									"ORDER BY lb.id";
 
 				MySqlDataReader reader = cmd.ExecuteReader();
 				try
@@ -41,7 +42,7 @@ namespace WebApp.Models
 							Id = Int32.Parse(reader[0].ToString()),
 							IdCashBox = Int32.Parse(reader[1].ToString()),
 							IdContract = Int32.Parse(reader[2].ToString()),
-							LDate = reader[3].ToString(),
+							LDate = reader[3].ToString().AsDateTime(),
 							NameCashBox = reader[4].ToString(),
 						});
 					}
@@ -61,6 +62,94 @@ namespace WebApp.Models
 
 			conn.Close();
 			return logBooksList;
+		}
+		public static LogBook GetLogBookById(int logBookId)
+		{
+			MySqlConnection conn = DbConnection.Get_Connection();
+			conn.Open();
+
+			LogBook lb = new LogBook();
+			try
+			{
+				MySqlCommand cmd = new MySqlCommand();
+				cmd.Connection = conn;
+				cmd.CommandText = "SELECT lb.*, c.name FROM logbook as lb " +
+								"JOIN cashbox c on c.id = lb.id_cashbox " +
+								$"WHERE lb.id = {logBookId}";
+
+				MySqlDataReader reader = cmd.ExecuteReader();
+				try
+				{
+					reader.Read();
+					lb.Id = Int32.Parse(reader[0].ToString());
+					lb.IdCashBox = Int32.Parse(reader[1].ToString());
+					lb.IdContract = Int32.Parse(reader[2].ToString());
+					lb.LDate = reader[3].ToString().AsDateTime();
+					lb.NameCashBox = reader[4].ToString();
+					reader.Close();
+				}
+				catch (MySqlException e)
+				{
+					reader.Close();
+					return null;
+				}
+			}
+			catch (MySqlException e)
+			{
+				return null;
+			}
+
+			conn.Close();
+			return lb;
+		}
+		public static bool Create(int idCashBox, int idContract, DateTime lDate)
+		{
+			MySqlConnection conn = DbConnection.Get_Connection();
+			conn.Open();
+
+			try
+			{
+				MySqlCommand cmd = new MySqlCommand();
+				cmd.Connection = conn;
+				
+				string date = lDate.ToString("yyyy-MM-dd HH:mm:ss");
+
+				cmd.CommandText = "INSERT INTO logbook (id_cashbox, id_contract, ldate ) " +
+								$"VALUES ('{idCashBox}', '{idContract}', '{date}')";
+				cmd.ExecuteReader();
+				conn.Close();
+				return true;
+			}
+			catch (MySqlException e)
+			{
+				conn.Close();
+				return false;
+			}
+		}
+		public static bool Update(int id, int idCashBox, int idContract, DateTime lDate)
+		{
+			MySqlConnection conn = DbConnection.Get_Connection();
+			conn.Open();
+			
+			try
+			{
+				MySqlCommand cmd = new MySqlCommand();
+				cmd.Connection = conn;
+				string date = lDate.ToString("yyyy-MM-dd HH:mm:ss");
+				cmd.CommandText = $"UPDATE logbook SET " +
+								$"logbook.id_cashbox = '{idCashBox}', " +
+								$"logbook.id_contract = '{idContract}', " +
+								$"logbook.ldate = '{date}' " +
+								$"WHERE logbook.id='{id}'";
+				cmd.ExecuteReader();
+				conn.Close();
+				return true;
+			}
+			catch (MySqlException e)
+			{
+				conn.Close();
+				return false;
+			}
 		}
 	}
 }

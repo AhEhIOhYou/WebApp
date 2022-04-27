@@ -5,11 +5,12 @@
 
 <div>
     <h2>Users</h2>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Name</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -18,17 +19,22 @@
             <tr>
                 <td>@s.Id</td>
                 <td>@s.Name</td>
+                <td>
+                    <a href="/Home/EditStaff?id=@s.Id">Edit</a>
+                    <a href="/Home/?delete=@s.Id&table=staff">Delete</a>
+                </td>
             </tr>
         }
         </tbody>
     </table>
     <br>
     <h2>Types of operations</h2>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Name</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -36,18 +42,23 @@
         {
             <tr>
                 <td>@opType.Id</td>
-                <td>@opType.Name</td>
+                <td>@opType.Type</td>
+                <td>
+                    <a href="/Home/EditOperationType?id=@opType.Id">Edit</a>
+                    <a href="/Home/?delete=@opType.Id&table=operation_type">Delete</a>
+                </td>
             </tr>
         }
         </tbody>
     </table>
     <br>
     <h2>Cash boxes</h2>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Name</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -56,13 +67,17 @@
             <tr>
                 <td>@cashBox.Id</td>
                 <td>@cashBox.Name</td>
+                <td>
+                    <a href="/Home/EditCashBox?id=@cashBox.Id">Edit</a>
+                    <a href="/Home/?delete=@cashBox.Id&table=cashbox">Delete</a>
+                </td>
             </tr>
         }
         </tbody>
     </table>
     <br>
     <h2>Contracts</h2>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">Id</th>
@@ -70,30 +85,36 @@
             <th scope="col">User Name</th>
             <th scope="col">Date</th>
             <th scope="col">Sum</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
         @foreach (Contract contract in ViewBag.ContractsList)
-        {
-            <tr>
-                <td>@contract.Id</td>
-                <td>@contract.NameType</td>
-                <td>@contract.NameUser</td>
-                <td>@contract.CDate</td>
-                <td>@contract.Sum</td>
-            </tr>
-        }
+                {
+                    <tr>
+                        <td>@contract.Id</td>
+                        <td>@contract.NameType</td>
+                        <td>@contract.NameUser</td>
+                        <td>@contract.CDate</td>
+                        <td>@contract.Sum</td>
+                        <td>
+                            <a href="/Home/EditContract?id=@contract.Id">Edit</a>
+                            <a href="/Home/?delete=@contract.Id&table=contract">Delete</a>
+                        </td>
+                    </tr>
+                }
         </tbody>
     </table>
     <br>
     <h2>Log book</h2>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Cashbox</th>
             <th scope="col">Contract id</th>
             <th scope="col">Date</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -104,6 +125,10 @@
                 <td>@lb.NameCashBox</td>
                 <td>@lb.IdContract</td>
                 <td>@lb.LDate</td>
+                <td>
+                    <a href="/Home/EditLogBook?id=@lb.Id">Edit</a>
+                    <a href="/Home/?delete=@lb.Id&table=logbook">Delete</a>
+                </td>
             </tr>
         }
         </tbody>

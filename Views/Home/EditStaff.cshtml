@@ -1,0 +1,47 @@
+@using WebApp.Models
+@{
+    ViewBag.Title = "Edit Page";
+    Staff s = ViewBag.Staff;
+}
+
+<div>
+    <h2>Staff</h2>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>@s.Id</td>
+            <td>@s.Name</td>
+        </tr>
+        </tbody>
+    </table>
+    <form method="post" action="/Home/EditStaff/">
+            <div class="form-group">
+                <input name="Id" class="invisible" value="@s.Id"/>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Name</span>
+                    <input type="text" class="form-control" id="Name" name="Name" pattern="^[а-яА-Яa-zA-Z\s]{2,30}" value="@s.Name">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+            <button type="reset" class="btn">Reset</button>
+            <a href="/Home/" class="btn">Cancel</a>
+        </form>
+</div>
+<script>
+    let inputName = document.getElementById("Name");
+    inputName.addEventListener("input", (evt) => {
+        if (inputName.validity.patternMismatch)
+        {
+            inputName.setCustomValidity("invalid name");
+        }
+        else {
+            inputName.setCustomValidity("");
+        }
+    });
+</script>

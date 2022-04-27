@@ -1,0 +1,59 @@
+@using WebApp.Models
+@{
+    ViewBag.Title = "Edit Page";
+    LogBook lb = ViewBag.LogBook;
+    List<Contract> lContract = new List<Contract>(ViewBag.ContractList);
+    List<CashBox> lCB = new List<CashBox>(ViewBag.CashBoxList);
+}
+
+<div>
+    <h2>Log book</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Cashbox</th>
+                <th scope="col">Contract id</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@lb.Id</td>
+                <td>@lb.NameCashBox</td>
+                <td>@lb.IdContract</td>
+                <td>@lb.LDate</td>
+            </tr>
+        </tbody>
+    </table>
+    <form method="post" action="/Home/EditLogBook/">
+        <div class="form-group">
+            <input name="Id" class="invisible" value="@lb.Id"/>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Cashbox</span>
+                <select class="form-control" name="IdCashBox">
+                    @foreach (CashBox cb in lCB)
+                    {
+                        <option value="@cb.Id">@cb.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Contract</span>
+                <select class="form-control" name="IdContract">
+                    @foreach (Contract c in lContract)
+                    {
+                        <option value="@c.Id">@c.Id</option>   
+                    }
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Date</span>
+                <input type="datetime" class="form-control" name="LDate" value="@lb.LDate">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply</button>
+        <button type="reset" class="btn">Reset</button>
+        <a href="/Home/" class="btn">Cancel</a>
+    </form>
+</div>
