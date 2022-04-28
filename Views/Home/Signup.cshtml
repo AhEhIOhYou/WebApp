@@ -1,0 +1,30 @@
+@using WebApp.Models
+@{
+    ViewBag.Title = "Sign up";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="d-sm-inline-flex p-5 bd-highlight">
+            <div class="col text-center">
+                <form method="post" action="/Signup/">
+                    <div class="form-floating mb-3">
+                        <h3>Sign up</h3>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        <label for="floatingInput">Login</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                        <label for="floatingPassword">Name</label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

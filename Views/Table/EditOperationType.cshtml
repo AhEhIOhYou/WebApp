@@ -1,0 +1,56 @@
+@using WebApp.Models
+@{
+    OperationType ot = new OperationType();
+    int id = -1;
+    string type = "";
+    if (ViewBag.Create)
+    {
+        ViewBag.Title = "Create Page";    
+    }
+    else
+    {
+        ViewBag.Title = "Edit Page";
+        ot = ViewBag.OperationType;
+        id = ot.Id;
+        type = ot.Type;
+    }
+}
+
+<div>
+    <h2>Operation Type</h2>
+    @if (!ViewBag.Create)
+    {
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@ot.Id</td>
+                <td>@ot.Type</td>
+            </tr>
+            </tbody>
+        </table>   
+    }
+    <form method="post" action="/Table/EditOperationType/" class="mt-5">
+        <div class="form-group mb-5">
+            @if (id > -1)
+            {
+                <input name="Id" class="invisible" value="@id"/>   
+            }
+            <div class="input-group mb-3">
+                <span class="input-group-text">Type</span>
+                <input type="text" class="form-control" name="Type" value="@type">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply</button>
+        <button type="reset" class="btn">Reset</button>
+        <a href="/Table/OperationType" class="btn">Cancel</a>
+    </form>
+</div>
+<script>
+    
+</script>

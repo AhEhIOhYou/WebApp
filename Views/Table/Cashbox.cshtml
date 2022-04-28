@@ -1,0 +1,35 @@
+@using WebApp.Models
+@{
+    ViewBag.Title = "Table Page";
+}
+
+<div class="container">
+    <h2>Cashboxes</h2>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (CashBox cashBox in ViewBag.CashBoxList)
+        {
+            <tr>
+                <td>@cashBox.Id</td>
+                <td>@cashBox.Name</td>
+                <td>
+                    <a href="/Table/EditCashbox?id=@cashBox.Id">Edit</a>
+                    <a href="/Table/Cashbox?delete=@cashBox.Id&table=cashbox">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="row mb-4">
+        <div class="offset-md-11">
+            <a href="/Table/EditCashbox?create=true" class="link-success">Add</a>
+        </div>
+    </div>
+</div>

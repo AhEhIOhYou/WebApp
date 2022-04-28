@@ -1,0 +1,39 @@
+@using WebApp.Models
+@{
+    ViewBag.Title = "Table Page";
+}
+
+<div class="container">
+    <h2>Logbook</h2>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Cashbox</th>
+            <th scope="col">Contract id</th>
+            <th scope="col">Date</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (LogBook lb in ViewBag.LogBookList)
+        {
+            <tr>
+                <td>@lb.Id</td>
+                <td>@lb.NameCashBox</td>
+                <td>@lb.IdContract</td>
+                <td>@lb.LDate</td>
+                <td>
+                    <a href="/Table/EditLogbook?id=@lb.Id">Edit</a>
+                    <a href="/Table/Logbook?delete=@lb.Id&table=logbook">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="row mb-4">
+        <div class="offset-md-11">
+            <a href="/Table/EditLogbook?create=true" class="link-success">Add</a>
+        </div>
+    </div>
+</div>

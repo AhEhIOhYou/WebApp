@@ -20,7 +20,7 @@ namespace WebApp
 				"~/Scripts/modernizr-*"));
 
 			bundles.Add(new Bundle("~/Content/css").Include(
-				"~/Content/site.css"));
+				"~/Content/Site.css"));
 		}
 	}
 }

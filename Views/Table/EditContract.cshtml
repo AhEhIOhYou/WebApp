@@ -1,0 +1,105 @@
+@using WebApp.Models
+@{
+    List<Staff> lStaff = new List<Staff>(ViewBag.StaffList);
+    List<OperationType> lOpType = new List<OperationType>(ViewBag.OperationType);
+    
+    Contract c = new Contract();
+    int id = -1;
+    DateTime cDate = DateTime.Now;
+    int sum = 0;
+    int idOt = 0;
+    int idStaff = 0;
+    
+    if (ViewBag.Create)
+    {
+        ViewBag.Title = "Create Page";    
+    }
+    else
+    {
+        ViewBag.Title = "Edit Page";
+        c = ViewBag.Contract;
+        id = c.Id;
+        cDate = c.CDate;
+        sum = c.Sum;
+        idOt = c.IdType;
+        idStaff = c.IdUser;
+    }
+}
+
+<div>
+    <h2>Contract</h2>
+    @if (!ViewBag.Create)
+    {
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Type</th>
+                <th scope="col">User</th>
+                <th scope="col">Date</th>
+                <th scope="col">Sum</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@c.Id</td>
+                <td>@c.NameType</td>
+                <td>@c.NameUser</td>
+                <td>@c.CDate</td>
+                <td>@c.Sum</td>
+            </tr>
+            </tbody>
+        </table>   
+    }
+    <form method="post" action="/Table/EditContract/" class="mt-5">
+        <div class="form-group mb-5">
+            @if (id > -1)
+            {
+                <input name="Id" class="invisible" value="@id"/>   
+            }
+            <div class="input-group mb-3">
+                <span class="input-group-text">Staff</span>
+                <select class="form-control" name="IdUser">
+                    @foreach (Staff s in lStaff)
+                    {
+                        if (s.Id == idStaff)
+                        {
+                            <option value="@s.Id" selected>@s.Name</option>   
+                        }
+                        else
+                        {
+                            <option value="@s.Id">@s.Name</option>   
+                        }
+                    }
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Type</span>
+                <select class="form-control" name="IdType">
+                    @foreach (OperationType ot in lOpType)
+                    {
+                        if (ot.Id == idOt)
+                        {
+                            <option value="@ot.Id" selected>@ot.Type</option>   
+                        }
+                        else
+                        {
+                            <option value="@ot.Id">@ot.Type</option>   
+                        }
+                    }
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Date</span>
+                <input type="datetime" class="form-control" name="CDate" value="@cDate">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Sum</span>
+                <input type="number" class="form-control" name="Sum" value="@sum">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply</button>
+        <button type="reset" class="btn">Reset</button>
+        <a href="/Table/EditContract/" class="btn">Cancel</a>
+    </form>
+</div>

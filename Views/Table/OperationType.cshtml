@@ -1,0 +1,35 @@
+@using WebApp.Models
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <h2>Types of operations</h2>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (OperationType opType in ViewBag.OperationTypeList)
+        {
+            <tr>
+                <td>@opType.Id</td>
+                <td>@opType.Type</td>
+                <td>
+                    <a href="/Table/EditOperationType?id=@opType.Id">Edit</a>
+                    <a href="/Table/OperationType?delete=@opType.Id&table=operation_type">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="row mb-4">
+        <div class="offset-md-11">
+            <a href="/Table/EditOperationType?create=true" class="link-success">Add</a>
+        </div>
+    </div>
+</div>

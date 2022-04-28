@@ -160,6 +160,7 @@
         <Compile Include="App_Start\FilterConfig.cs" />
         <Compile Include="App_Start\RouteConfig.cs" />
         <Compile Include="Controllers\HomeController.cs" />
+        <Compile Include="Controllers\TableController.cs" />
         <Compile Include="Global.asax.cs">
             <DependentUpon>Global.asax</DependentUpon>
         </Compile>
@@ -187,11 +188,20 @@
         <Content Include="Scripts\jquery.validate.unobtrusive.js" />
         <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
         <Content Include="Scripts\modernizr-2.8.3.js" />
-        <Content Include="Views\Home\EditCashBox.cshtml" />
-        <Content Include="Views\Home\EditContract.cshtml" />
-        <Content Include="Views\Home\EditLogBook.cshtml" />
-        <Content Include="Views\Home\EditOperationType.cshtml" />
-        <Content Include="Views\Home\EditStaff.cshtml" />
+        <Content Include="Views\Home\Account.cshtml" />
+        <Content Include="Views\Home\Signup.cshtml" />
+        <Content Include="Views\Home\Sql.cshtml" />
+        <Content Include="Views\Table\Cashbox.cshtml" />
+        <Content Include="Views\Table\Contract.cshtml" />
+        <Content Include="Views\Table\EditCashbox.cshtml" />
+        <Content Include="Views\Table\EditContract.cshtml" />
+        <Content Include="Views\Table\EditLogbook.cshtml" />
+        <Content Include="Views\Table\EditOperationType.cshtml" />
+        <Content Include="Views\Table\EditStaff.cshtml" />
+        <Content Include="Views\Table\Index.cshtml" />
+        <Content Include="Views\Table\Logbook.cshtml" />
+        <Content Include="Views\Table\OperationType.cshtml" />
+        <Content Include="Views\Table\Staff.cshtml" />
         <Content Include="Web.config" />
         <Content Include="Web.Debug.config">
             <DependentUpon>Web.config</DependentUpon>

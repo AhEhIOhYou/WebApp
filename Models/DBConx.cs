@@ -27,12 +27,44 @@ namespace WebApp.Models
 			}
 		}
 
-		public string ExecuteCommand(string text)
+		public (List<string>, List<List<object>>) ExecuteSelect(string sqlText)
 		{
-			string mainAction = text.Split().Last();
-			return mainAction;
+			List<string> lCols = new List<string>();
+			List<List<object>> lData = new List<List<object>>();
+			List<object> tmp = new List<object>();
+			
+			MySqlConnection conn = DbConnection.Get_Connection();
+			conn.Open();
+			
+			MySqlCommand cmd = new MySqlCommand();
+			cmd.Connection = conn;
+			cmd.CommandText = $"{sqlText}";
+			MySqlDataReader reader = cmd.ExecuteReader();
+
+			if(reader.HasRows) // если есть данные
+			{
+				int colCount = reader.FieldCount;
+				for (int i = 0; i < colCount; i++)
+				{
+					lCols.Add(reader.GetName(i));
+				}
+
+				while (reader.Read()) // построчно считываем данные
+				{
+					for (int i = 0; i < colCount; i++)
+					{
+						tmp.Add(reader.GetValue(i));
+					}
+					lData.Add(tmp);
+					tmp = new List<object>();
+				}
+			}
+			conn.Close();
+			
+			return (lCols, lData);
 		}
 
+		public string GetOpType(string sqlText) => sqlText.Split().First();
 		public List<string> GetStructure(string table)
 		{
 			List<string> result = new List<string>();

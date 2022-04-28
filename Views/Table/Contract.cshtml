@@ -1,0 +1,41 @@
+@using WebApp.Models
+@{
+    ViewBag.Title = "Table page";
+}
+
+<div class="container">
+    <h2>Contracts</h2>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Type</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Sum</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Contract contract in ViewBag.ContractsList)
+                {
+                    <tr>
+                        <td>@contract.Id</td>
+                        <td>@contract.NameType</td>
+                        <td>@contract.NameUser</td>
+                        <td>@contract.CDate</td>
+                        <td>@contract.Sum</td>
+                        <td>
+                            <a href="/Table/EditContract?id=@contract.Id">Edit</a>
+                            <a href="/Table/Contract/?delete=@contract.Id&table=contract">Delete</a>
+                        </td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+    <div class="row mb-4">
+        <div class="offset-md-11">
+            <a href="/Table/EditContract?create=true" class="link-success">Add</a>
+        </div>
+    </div>
+</div>

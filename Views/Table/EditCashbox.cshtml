@@ -1,0 +1,53 @@
+@using WebApp.Models
+@{
+    CashBox cb = new CashBox();
+    int id = -1;
+    string name = "";
+    if (ViewBag.Create)
+    {
+        ViewBag.Title = "Create Page";    
+    }
+    else
+    {
+        ViewBag.Title = "Edit Page";
+        cb = ViewBag.CashBox;
+        id = cb.Id;
+        name = cb.Name;
+    }
+}
+
+<div>
+    <h2>Cashbox</h2>
+    @if (!ViewBag.Create)
+    {
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@cb.Id</td>
+                <td>@cb.Name</td>
+            </tr>
+            </tbody>
+        </table>
+    }
+    <form method="post" action="/Table/EditCashBox/" class="mt-5">
+        <div class="form-group mb-5">
+            @if (id > -1)
+            {
+                <input name="Id" class="invisible" value="@id"/>   
+            }
+            <div class="input-group mb-3">
+                <span class="input-group-text">Name</span>
+                <input type="text" class="form-control" id="Name" name="Name" pattern="^[а-яА-Яa-zA-Z\s]{2,30}" value="@name">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply</button>
+        <button type="reset" class="btn">Reset</button>
+        <a href="/Table/Cashbox/" class="btn">Cancel</a>
+    </form>
+</div>
