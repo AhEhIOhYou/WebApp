@@ -1,6 +1,8 @@
 @using WebApp.Models
 @{
     ViewBag.Title = "Table page";
+    var user = Auth.GetUserSession();
+    bool isAdmin = user != null && user.Role == "admin";
 }
 
 <div class="container">
@@ -10,7 +12,10 @@
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Name</th>
-            <th scope="col">Action</th>
+            @if (isAdmin)
+            {
+                <th scope="col">Action</th>   
+            }
         </tr>
         </thead>
         <tbody>
@@ -19,19 +24,25 @@
             <tr>
                 <td>@s.Id</td>
                 <td>@s.Name</td>
-                <td>
-                    <a href="/Table/EditStaff?id=@s.Id">Edit</a>
-                    <a href="/Table/Staff?delete=@s.Id&table=staff">Delete</a>
-                </td>
+                @if (isAdmin)
+                {
+                    <td>
+                        <a href="/Table/EditStaff?id=@s.Id">Edit</a>
+                        <a href="/Table/Staff?delete=@s.Id&table=staff">Delete</a>
+                    </td>   
+                }
             </tr>
         }
         </tbody>
     </table>
-    <div class="row mb-4">
-        <div class="offset-md-11">
-            <a href="/Table/EditStaff?create=true" class="link-success">Add</a>
-        </div>
-    </div>
+    @if (isAdmin)
+    {
+        <div class="row mb-4">
+            <div class="offset-md-11">
+                <a href="/Table/EditStaff?create=true" class="link-success">Add</a>
+            </div>
+        </div>   
+    }
     <form method="get" action = "/Table/Staff/" class="mt-5">
         <div class="form-group mb-5">
             <div class="input-group mb-3">
