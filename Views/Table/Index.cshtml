@@ -1,9 +1,28 @@
 @using WebApp.Models
 @{
     ViewBag.Title = "Tables";
+    bool go = false;
+    
+    if (ViewBag.List != null)
+    {
+        go = true;
+    }
 }
 
 <div class="container">
+    <div class="row justify-content-center mb-5">
+        <form class="col-10" action="/Table/" method="get">
+            <div class="mb-3">
+                <h3>Search</h3>
+            </div>
+            <div class=" mb-3">
+                <input type="text" autocomplete="off" name="search" class="form-control">
+            </div>
+        </form>
+    </div>
+    <div class="mb-3">
+        <h3>Tables</h3>
+    </div>
     <div class="list-group mb-4">
         <a class="list-group-item list-group-item-action" href="../Table/Staff/">Staff</a>
         <a class="list-group-item list-group-item-action" href="../Table/OperationType/">Operation types</a>
@@ -11,4 +30,11 @@
         <a class="list-group-item list-group-item-action" href="../Table/Contract/">Contracts</a>
         <a class="list-group-item list-group-item-action" href="../Table/Logbook/">Logbook</a>
     </div>
+    @if (go)
+    {
+        foreach (string s in ViewBag.list)
+        {
+            <p>@s</p>
+        }   
+    }
 </div>

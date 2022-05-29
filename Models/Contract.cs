@@ -31,9 +31,7 @@ namespace WebApp.Models
 			{
 				MySqlCommand cmd = new MySqlCommand();
 				cmd.Connection = conn;
-				cmd.CommandText = String.Format("SELECT mydb.contract.*, ot.type, s.name FROM mydb.contract " +
-												"JOIN mydb.operation_type ot on ot.id = contract.id_type " +
-												"JOIN mydb.staff s on s.id = contract.id_user");
+				cmd.CommandText = "call SelectContracts();";
 
 				MySqlDataReader reader = cmd.ExecuteReader();
 				try

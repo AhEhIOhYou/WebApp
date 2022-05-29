@@ -1,0 +1,51 @@
+@using WebApp.Models
+@{
+    ViewBag.Title = "Sign in";
+    int? status = ViewBag.Status;
+    var user = Auth.GetUserSession();
+}
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="d-sm-inline-flex p-5 bd-highlight">
+            <div class="col text-center">
+                <div class="alert  d-flex align-items-center" role="alert">
+                </div>
+                <form method="post" action="/Home/Signin/">
+                    <div class="form-floating mb-3">
+                        <h3>@ViewBag.Title</h3>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name="Login" type="text" class="form-control" id="fLogin" placeholder="name@example.com">
+                        <label for="fLogin">Login</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name="Pass" type="password" class="form-control" id="fPass" placeholder="Password">
+                        <label for="fPass">Password</label>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    @if (status!= null && status != 1)
+    {
+        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+            @switch (status)
+            {
+                case -1:
+                    <div>
+                        The user does not exist!
+                    </div>
+                    break;
+                case -2:
+                    <div>
+                        Wrong password!
+                    </div>
+                    break;
+            }
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>   
+    }
+</div>

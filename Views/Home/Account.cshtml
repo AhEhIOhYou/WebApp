@@ -1,24 +1,23 @@
 @using WebApp.Models
 @{
     ViewBag.Title = "My account";
+    var user = Auth.GetUserSession();
 }
 
 <div class="container">
-    <div class="d-flex justify-content-center">
-        <div class="d-sm-inline-flex p-5 bd-highlight">
-            <div class="col text-center">
-                <div class="form-floating mb-3">
-                    <h3>Welcome</h3>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
-                </div>
-                <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
-                </div>
-            </div>
-        </div>
+    <div class="form-floating mb-3">
+        <h3>Hello, @user.Name</h3>
     </div>
+    
+    <form method="post" action="/Home/Account/">
+        <div class="form-floating mb-3">
+            <h5>Change name</h5>
+        </div>
+        <input name="Id" class="invisible" value="@user.Id"/>
+        <div class="form-floating mb-3">
+            <input name="Name" type="text" class="form-control" id="fName" placeholder="Name">
+            <label for="fName">@user.Name</label>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
 </div>

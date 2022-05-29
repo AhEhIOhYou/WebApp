@@ -32,5 +32,13 @@
             <a href="/Table/EditStaff?create=true" class="link-success">Add</a>
         </div>
     </div>
-    
+    <form method="get" action = "/Table/Staff/" class="mt-5">
+        <div class="form-group mb-5">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Sort by</span>
+                <input type="text" class="form-control" required name="sort" value="id">
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+        </div>
+    </form>
 </div>

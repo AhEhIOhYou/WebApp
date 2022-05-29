@@ -1,24 +1,18 @@
 ﻿@using WebApp.Models
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Index";
+    var user = Auth.GetUserSession();
 }
 
 <div class="container">
-    <div class="d-flex justify-content-center">
-        <div class="d-sm-inline-flex p-5 bd-highlight">
-            <div class="col text-center">
-                <div class="form-floating mb-3">
-                    <h3>Sign in</h3>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
-                </div>
-                <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
-                </div>
-            </div>
-        </div>
+    <div class="row justify-content-center mb-5">
+        @if (user != null)
+        {
+            <h3>Welcome, @user.Name!</h3>   
+        }
+        else
+        {
+            <h3>Welcome, please <a href="/Home/Signin/">authorize</a>!</h3>
+        }
     </div>
 </div>

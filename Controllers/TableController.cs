@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using WebApp.Models;
 
@@ -10,6 +11,12 @@ namespace WebApp.Controllers
 
 		public ActionResult Index()
 		{
+			ViewBag.List = null;
+			
+			if (Request.QueryString["search"] != null)
+			{
+				ViewBag.List = context.GetCols(Request.QueryString["search"]);
+			}
 			return View();
 		}
 
@@ -22,8 +29,18 @@ namespace WebApp.Controllers
 					Int32.Parse(Request.QueryString["delete"])
 				);
 			}
-			
-			ViewBag.StaffList = StaffContext.GetAllStaff();
+
+			if (Request.QueryString["sort"] != null)
+			{
+				var allStaff = StaffContext.GetAllStaff(Request.QueryString["sort"]);
+				if (allStaff == null)
+				{
+					ViewBag.StaffList = StaffContext.GetAllStaff("");
+				}
+			}
+			else
+				ViewBag.StaffList = StaffContext.GetAllStaff("");
+
 			return View();
 		}
 		public ActionResult EditStaff()
@@ -67,7 +84,11 @@ namespace WebApp.Controllers
 				);
 			}
 			
-			ViewBag.OperationTypeList = OperationTypeContext.GetAllOperationTypes();
+			if (Request.QueryString["sort"] != null)
+				ViewBag.OperationTypeList = OperationTypeContext.GetAllOperationTypes(Request.QueryString["sort"]);
+			else
+				ViewBag.OperationTypeList = OperationTypeContext.GetAllOperationTypes("");
+			
 			return View();
 		}
 		public ActionResult EditOperationType()
@@ -117,8 +138,8 @@ namespace WebApp.Controllers
 		public ActionResult EditContract()
 		{
 			ViewBag.Create = false;
-			ViewBag.StaffList = StaffContext.GetAllStaff();
-			ViewBag.OperationType = OperationTypeContext.GetAllOperationTypes();
+			ViewBag.StaffList = StaffContext.GetAllStaff("");
+			ViewBag.OperationType = OperationTypeContext.GetAllOperationTypes("");
 			
 			if (Request.QueryString["create"] == "true")
 			{

@@ -12,7 +12,7 @@ namespace WebApp.Models
 	
 	public static class OperationTypeContext
 	{
-		public static List<OperationType> GetAllOperationTypes()
+		public static List<OperationType> GetAllOperationTypes(string sort)
 		{
 			MySqlConnection conn = DbConnection.Get_Connection();
 			conn.Open();

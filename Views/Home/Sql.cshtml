@@ -3,10 +3,19 @@
     ViewBag.Title = "Home Page";
 
     bool letsgo = false;
+    bool letsgo2 = false;
 
     List<List<object>> lData = new List<List<object>>();
     List<string> lCols = new List<string>();
     string sqlText = "";
+    string sqlResponse = "";
+
+    if (ViewBag.SqlResponse != null)
+    {
+        letsgo2 = true;
+        sqlResponse = ViewBag.SqlResponse;
+        sqlText = ViewBag.SqlText;
+    }
 
     if (ViewBag.Struct != null && ViewBag.ItemsRow != null)
     {
@@ -35,7 +44,7 @@
                     <p>@sqlText</p>
                 </blockquote>
                 <figcaption class="blockquote-footer">
-                    Your SQL query
+                    Жак Фреско
                 </figcaption>
             </figure>
             <h3>Result</h3>
@@ -60,6 +69,21 @@
                 }
                 </tbody>
             </table>
+        }
+        @if (letsgo2)
+        {
+            <figure class="text-center">
+                <blockquote class="blockquote">
+                    <p>@sqlText</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    Жак Фреско
+                </figcaption>
+            </figure>
+        <h3>Result</h3>
+        <p class="lead">
+            @sqlResponse
+        </p>
         }
     </div>
 </div>
