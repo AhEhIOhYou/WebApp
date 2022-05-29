@@ -15,7 +15,38 @@ namespace WebApp.Controllers
 			
 			if (Request.QueryString["search"] != null)
 			{
-				ViewBag.List = context.GetCols(Request.QueryString["search"]);
+				string query = Request.QueryString["search"];
+				ViewBag.Query = query;
+				
+				List<List<string>> result;
+				
+				result = StaffContext.Search(query);
+				if (result != null)
+				{
+					ViewBag.Staff = result;
+				}
+				result = OperationTypeContext.Search(query);
+				if (result != null)
+				{
+					ViewBag.OperationType = result;
+				}
+				result = CashBoxContext.Search(query);
+				if (result != null)
+				{
+					ViewBag.CashBox = result;
+				}
+				result = ContractContext.Search(query);
+				if (result != null)
+				{
+					ViewBag.Contract = result;
+				}
+				result = LogBookContext.Search(query);
+				if (result != null)
+				{
+					ViewBag.LogBook = result;
+				}
+
+				int k = 12;
 			}
 			return View();
 		}

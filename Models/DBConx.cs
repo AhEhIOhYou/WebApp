@@ -79,7 +79,7 @@ namespace WebApp.Models
 		{
 			string response = GetOpType(sqlText).ToLower() + ": ";
 			int count = 0;
-
+						
 			MySqlConnection conn = DbConnection.Get_Connection();
 			conn.Open();
 
@@ -104,32 +104,6 @@ namespace WebApp.Models
 		}
 
 		public string GetOpType(string sqlText) => sqlText.Split().First();
-
-		// Не работает
-		public List<string> GetCols(string table)
-		{
-			MySqlConnection conn = DbConnection.Get_Connection();
-			conn.Open();
-
-			try
-			{
-				MySqlCommand cmd = new MySqlCommand();
-				cmd.Connection = conn;
-				cmd.CommandText = $"SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` " +
-								$"WHERE `TABLE_SCHEMA`='mydb' AND `TABLE_NAME`='staff';";
-
-				MySqlDataReader reader = cmd.ExecuteReader();
-				
-			}
-			catch (MySqlException e)
-			{
-				conn.Close();
-				return null;
-			}
-
-			conn.Close();
-			return null;
-		}
 
 		public bool CanSort(string tableName, string sortParams)
 		{
@@ -177,6 +151,14 @@ namespace WebApp.Models
 				}
 			}
 			return can;
+		}
+
+		public List<(string, List<int>)> Aaaa(string searchText)
+		{
+			List<(string, List<int>)> a = new List<(string, List<int>)>();
+			
+			
+			return null;	
 		}
 	}
 }

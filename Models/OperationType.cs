@@ -130,5 +130,40 @@ namespace WebApp.Models
 				return false;
 			}
 		}
+		public static List<List<string>> Search(string searchText)
+		{
+			List<List<string>> result = new List<List<string>>();
+			List<string> tmp = new List<string>();
+
+			MySqlConnection conn = DbConnection.Get_Connection();
+			conn.Open();
+
+			try
+			{
+				MySqlCommand cmd = new MySqlCommand();
+				cmd.Connection = conn;
+				cmd.CommandText = $"SELECT ot.id, ot.type " +
+								$"FROM mydb.operation_type as ot " +
+								$"WHERE ot.type LIKE '{searchText}' ";
+				MySqlDataReader reader = cmd.ExecuteReader();
+				while (reader.Read())
+				{
+					for (int i = 0; i < 2; i++)
+					{
+						tmp.Add(reader.GetValue(i).ToString());
+					}
+					result.Add(tmp);
+					tmp = new List<string>();
+				}
+				reader.Close();
+			}
+			catch (MySqlException e)
+			{
+				conn.Close();
+				return null;
+			}
+
+			return result;
+		}
 	}
 }

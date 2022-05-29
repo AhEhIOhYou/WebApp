@@ -1,40 +1,291 @@
 @using WebApp.Models
 @{
     ViewBag.Title = "Tables";
-    bool go = false;
     
-    if (ViewBag.List != null)
+    var user = Auth.GetUserSession();
+    bool isAdmin = user != null && user.Role == "admin";
+    
+    List<List<string>> operationType = new List<List<string>>();
+    if (ViewBag.OperationType != null && ViewBag.OperationType.Count > 0)
     {
-        go = true;
+        operationType = ViewBag.OperationType;
     }
+    List<List<string>> staff = new List<List<string>>();
+    
+    if (ViewBag.Staff != null && ViewBag.Staff.Count > 0)
+    {
+        staff = ViewBag.Staff;
+    }
+    List<List<string>> cashBox = new List<List<string>>();
+    
+    if (ViewBag.CashBox != null && ViewBag.CashBox.Count > 0)
+    {
+        cashBox = ViewBag.CashBox;
+    }
+    List<List<string>> contract = new List<List<string>>();
+    
+    if (ViewBag.Contract != null && ViewBag.Contract.Count > 0)
+    {
+        contract = ViewBag.Contract;
+    }
+    List<List<string>> logBook = new List<List<string>>();
+    
+    if (ViewBag.LogBook != null && ViewBag.LogBook.Count > 0)
+    {
+        logBook = ViewBag.LogBook;
+    }
+    
+    var query = ViewBag.Query;
 }
-
 <div class="container">
     <div class="row justify-content-center mb-5">
-        <form class="col-10" action="/Table/" method="get">
-            <div class="mb-3">
-                <h3>Search</h3>
-            </div>
-            <div class=" mb-3">
-                <input type="text" autocomplete="off" name="search" class="form-control">
-            </div>
-        </form>
-    </div>
-    <div class="mb-3">
-        <h3>Tables</h3>
-    </div>
-    <div class="list-group mb-4">
-        <a class="list-group-item list-group-item-action" href="../Table/Staff/">Staff</a>
-        <a class="list-group-item list-group-item-action" href="../Table/OperationType/">Operation types</a>
-        <a class="list-group-item list-group-item-action" href="../Table/Cashbox/">Cashboxes</a>
-        <a class="list-group-item list-group-item-action" href="../Table/Contract/">Contracts</a>
-        <a class="list-group-item list-group-item-action" href="../Table/Logbook/">Logbook</a>
-    </div>
-    @if (go)
+    <form class="col-10" action="/Table/" method="get">
+        <div class="mb-3">
+            <h3>Search</h3>
+        </div>
+        <div class=" mb-3">
+            <input type="text" autocomplete="off" name="search" class="form-control" value="@query">
+        </div>
+    </form>
+    @if (query != null)
     {
-        foreach (string s in ViewBag.list)
-        {
-            <p>@s</p>
-        }   
+        <div class="col-10">
+            <h4>Результаты поиска:</h4>
+            @if (staff.Count == 0 && cashBox.Count == 0 && operationType.Count == 0 && contract.Count == 0 && logBook.Count == 0)
+            {
+                <p>Ничего не найдено</p>
+            }
+        </div>
     }
+    @if (staff.Count > 0)
+            {
+                <div class="col-10">
+                    <h2>Users</h2>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
+                            @if (isAdmin)
+                            {
+                                <th scope="col">Action</th>   
+                            }
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (List<string> s in staff)
+                        {
+                            <tr>
+                                <td>@s[0]</td>
+                                <td>@s[1]</td>
+                                @if (isAdmin)
+                                {
+                                    <td>
+                                        <a href="/Table/EditStaff?id=@s[0]">Edit</a>
+                                        <a href="/Table/Staff?delete=@s[0]&table=staff">Delete</a>
+                                    </td>   
+                                }
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                    @if (isAdmin)
+                    {
+                        <div class="row mb-4">
+                            <div class="offset-md-11">
+                                <a href="/Table/EditStaff?create=true" class="link-success">Add</a>
+                            </div>
+                        </div>   
+                    }
+                </div>
+            }
+    @if (cashBox.Count > 0)
+    {
+        <div class="col-10">
+            <h2>Cashboxes</h2>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    @if (isAdmin)
+                    {
+                        <th scope="col">Action</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (List<string> cb in cashBox)
+                {
+                    <tr>
+                        <td>@cb[0]</td>
+                        <td>@cb[1]</td>
+                        @if (isAdmin)
+                        {
+                            <td>
+                                <a href="/Table/EditCashbox?id=@cb[0]">Edit</a>
+                                <a href="/Table/Cashbox?delete=@cb[0]&table=cashbox">Delete</a>
+                            </td>   
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+            @if (isAdmin)
+            {
+                <div class="row mb-4">
+                    <div class="offset-md-11">
+                        <a href="/Table/EditCashbox?create=true" class="link-success">Add</a>
+                    </div>
+                </div>   
+            }
+        </div>       
+    }
+    @if (operationType.Count > 0)
+    {
+        <div class="col-10">
+            <h2>Types of operations</h2>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    @if (isAdmin)
+                    {
+                        <th scope="col">Action</th>   
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (List<string> opType in operationType)
+                {
+                    <tr>
+                        <td>@opType[0]</td>
+                        <td>@opType[1]</td>
+                        @if (isAdmin)
+                        {
+                            <td>
+                                <a href="/Table/EditOperationType?id=@opType[0]">Edit</a>
+                                <a href="/Table/OperationType?delete=@opType[0]&table=operation_type">Delete</a>
+                            </td>   
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+            @if (isAdmin)
+            {
+                <div class="row mb-4">
+                    <div class="offset-md-11">
+                        <a href="/Table/EditOperationType?create=true" class="link-success">Add</a>
+                    </div>
+                </div>   
+            }
+        </div>       
+    }
+    @if (contract.Count > 0)
+    {
+        <div class="col-10">
+           <h2>Contracts</h2>
+           <table class="table table-hover">
+               <thead>
+               <tr>
+                   <th scope="col">Id</th>
+                   <th scope="col">User Name</th>
+                   <th scope="col">Type</th>
+                   <th scope="col">Date</th>
+                   <th scope="col">Sum</th>
+                   @if (isAdmin)
+                   {
+                       <th scope="col">Action</th>
+                   }
+               </tr>
+               </thead>
+               <tbody>
+               @foreach (List<string> ct in contract)
+               {
+                   <tr>
+                       <td>@ct[0]</td>
+                       <td>@ct[1]</td>
+                       <td>@ct[2]</td>
+                       <td>@ct[3]</td>
+                       <td>@ct[4]</td>
+                       @if (isAdmin)
+                       {
+                           <td>
+                               <a href="/Table/EditContract?id=@ct[0]">Edit</a>
+                               <a href="/Table/Contract/?delete=@ct[0]&table=contract">Delete</a>
+                           </td>
+                       }
+                   </tr>
+               }
+               </tbody>
+           </table>
+             @if (isAdmin)
+             {
+                 <div class="row mb-4">
+                     <div class="offset-md-11">
+                         <a href="/Table/EditContract?create=true" class="link-success">Add</a>
+                     </div>
+                 </div>
+             }
+        </div>       
+    }
+    @if (logBook.Count > 0)
+    {
+        <div class="col-10">
+            <h2>Logbook</h2>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Cashbox</th>
+                    <th scope="col">Contract id</th>
+                    <th scope="col">Date</th>
+                    @if (isAdmin)
+                    {
+                        <th scope="col">Action</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (List<string> lb in logBook)
+                {
+                    <tr>
+                        <td>@lb[0]</td>
+                        <td>@lb[1]</td>
+                        <td>@lb[2]</td>
+                        <td>@lb[3]</td>
+                        @if (isAdmin)
+                        {
+                            <td>
+                                <a href="/Table/EditLogbook?id=@lb[0]">Edit</a>
+                                <a href="/Table/Logbook?delete=@lb[0]&table=logbook">Delete</a>
+                            </td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+            @if (isAdmin)
+            {
+                <div class="row mb-4">
+                    <div class="offset-md-11">
+                        <a href="/Table/EditLogbook?create=true" class="link-success">Add</a>
+                    </div>
+                </div>
+            }
+        </div>       
+    }
+    <div class="col-10">
+        <h3>Tables</h3>
+        <div class="list-group mb-4">
+            <a class="list-group-item list-group-item-action" href="../Table/Staff/">Staff</a>
+            <a class="list-group-item list-group-item-action" href="../Table/OperationType/">Operation types</a>
+            <a class="list-group-item list-group-item-action" href="../Table/Cashbox/">Cashboxes</a>
+            <a class="list-group-item list-group-item-action" href="../Table/Contract/">Contracts</a>
+            <a class="list-group-item list-group-item-action" href="../Table/Logbook/">Logbook</a>
+        </div>
+        </div>
+    </div>
 </div>

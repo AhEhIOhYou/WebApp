@@ -151,5 +151,43 @@ namespace WebApp.Models
 				return false;
 			}
 		}
+		public static List<List<string>> Search(string searchText)
+		{
+			List<List<string>> result = new List<List<string>>();
+			List<string> tmp = new List<string>();
+
+			MySqlConnection conn = DbConnection.Get_Connection();
+			conn.Open();
+
+			try
+			{
+				MySqlCommand cmd = new MySqlCommand();
+				cmd.Connection = conn;
+				cmd.CommandText = $"SELECT lb.id, cb.name, lb.id_contract, lb.ldate " +
+								$"FROM mydb.logbook as lb " +
+								$"JOIN mydb.cashbox cb on cb.id = lb.id_cashbox = cb.id " +
+								$"WHERE lb.ldate LIKE '{searchText}' " +
+								$"OR lb.id_contract LIKE '{searchText}' " +
+								$"OR cb.name LIKE '{searchText}' ";
+								MySqlDataReader reader = cmd.ExecuteReader();
+				while (reader.Read())
+				{
+					for (int i = 0; i < 4; i++)
+					{
+						tmp.Add(reader.GetValue(i).ToString());
+					}
+					result.Add(tmp);
+					tmp = new List<string>();
+				}
+				reader.Close();
+			}
+			catch (MySqlException e)
+			{
+				conn.Close();
+				return null;
+			}
+
+			return result;
+		}
 	}
 }

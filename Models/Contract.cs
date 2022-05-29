@@ -159,5 +159,46 @@ namespace WebApp.Models
 				return false;
 			}
 		}
+		public static List<List<string>> Search(string searchText)
+		{
+			List<List<string>> result = new List<List<string>>();
+			List<string> tmp = new List<string>();
+
+			MySqlConnection conn = DbConnection.Get_Connection();
+			conn.Open();
+
+			try
+			{
+				MySqlCommand cmd = new MySqlCommand();
+				cmd.Connection = conn;
+				cmd.CommandText = $"SELECT ct.id, s.name, ot.type, ct.cdate, ct.sum" +
+								$" FROM mydb.contract as ct " +
+								$"JOIN mydb.staff s on s.id = ct.id_user " +
+								$"JOIN mydb.operation_type ot on ot.id = ct.id_type " +
+								$"WHERE ct.cdate LIKE '{searchText}' " +
+								$"OR ct.sum LIKE '{searchText}' " +
+								$"OR ct.sum LIKE '{searchText}' " +
+								$"OR s.name LIKE '{searchText}' " +
+								$"OR ot.type LIKE '{searchText}' ";
+				MySqlDataReader reader = cmd.ExecuteReader();
+				while (reader.Read())
+				{
+					for (int i = 0; i < 5; i++)
+					{
+						tmp.Add(reader.GetValue(i).ToString());
+					}
+					result.Add(tmp);
+					tmp = new List<string>();
+				}
+				reader.Close();
+			}
+			catch (MySqlException e)
+			{
+				conn.Close();
+				return null;
+			}
+
+			return result;
+		}
 	}
 }

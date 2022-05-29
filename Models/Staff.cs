@@ -35,25 +35,16 @@ namespace WebApp.Models
 				cmd.CommandText = $"SELECT * FROM staff ORDER BY {sort}";
 
 				MySqlDataReader reader = cmd.ExecuteReader();
-				try
+				while (reader.Read())
 				{
-					while (reader.Read())
+					staffList.Add(new Staff
 					{
-						staffList.Add(new Staff
-						{
-							Id = Int32.Parse(reader[0].ToString()),
-							Name = reader[1].ToString()
-						});
-					}
-
-					reader.Close();
-				}
-				catch (MySqlException e)
-				{
-					reader.Close();
-					return null;
+						Id = Int32.Parse(reader[0].ToString()),
+						Name = reader[1].ToString()
+					});
 				}
 
+				reader.Close();
 			}
 			catch (MySqlException e)
 			{
@@ -137,6 +128,41 @@ namespace WebApp.Models
 				conn.Close();
 				return false;
 			}
+		}
+		public static List<List<string>> Search(string searchText)
+		{
+			List<List<string>> result = new List<List<string>>();
+			List<string> tmp = new List<string>();
+
+			MySqlConnection conn = DbConnection.Get_Connection();
+			conn.Open();
+
+			try
+			{
+				MySqlCommand cmd = new MySqlCommand();
+				cmd.Connection = conn;
+				cmd.CommandText = $"SELECT st.id, st.name " +
+								$"FROM mydb.staff as st " +
+								$"WHERE st.name LIKE '{searchText}' ";
+				MySqlDataReader reader = cmd.ExecuteReader();
+				while (reader.Read())
+				{
+					for (int i = 0; i < 2; i++)
+					{
+						tmp.Add(reader.GetValue(i).ToString());
+					}
+					result.Add(tmp);
+					tmp = new List<string>();
+				}
+				reader.Close();
+			}
+			catch (MySqlException e)
+			{
+				conn.Close();
+				return null;
+			}
+
+			return result;
 		}
 	}
 }
