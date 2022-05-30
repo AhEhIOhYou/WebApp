@@ -29,22 +29,14 @@ namespace WebApp.Models
 				cmd.CommandText = $"SELECT * FROM mydb.users WHERE login = '{login}'";
 
 				MySqlDataReader reader = cmd.ExecuteReader();
-				try
-				{
-					reader.Read();
-					user.Id = Int32.Parse(reader[0].ToString());
-					user.Login = reader[1].ToString();
-					user.Pass = reader[2].ToString();
-					user.Name = reader[3].ToString();
-					user.Role =  reader[4].ToString();
-					user.Salt = reader[5].ToString();
-					reader.Close();
-				}
-				catch (MySqlException e)
-				{
-					reader.Close();
-					return null;
-				}
+				reader.Read();
+				user.Id = Int32.Parse(reader[0].ToString());
+				user.Login = reader[1].ToString();
+				user.Pass = reader[2].ToString();
+				user.Name = reader[3].ToString();
+				user.Role =  reader[4].ToString();
+				user.Salt = reader[5].ToString();
+				reader.Close();
 			}
 			catch (MySqlException e)
 			{
@@ -66,8 +58,8 @@ namespace WebApp.Models
 				MySqlCommand cmd = new MySqlCommand();
 				cmd.Connection = conn;
 
-				cmd.CommandText = $"INSERT INTO mydb.users (login, pass, name, role, salt) VALUE ('{login}', '{pass}','{userName}', '{role}', '{salt}')";
-				cmd.ExecuteReader();
+				cmd.CommandText = "call CreateUser('Test1', 'asd', 'asd','def', 'asd');";
+				cmd.ExecuteNonQuery();
 				conn.Close();
 				return true;
 			}

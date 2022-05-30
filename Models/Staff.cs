@@ -21,12 +21,6 @@ namespace WebApp.Models
 			if (sort == "")
 				sort = "id";
 
-			DbConx cn = new DbConx();
-			if (!cn.CanSort("staff", sort))
-			{
-				return null;
-			}
-
 			List<Staff> staffList = new List<Staff>();
 			try
 			{

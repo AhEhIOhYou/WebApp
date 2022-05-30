@@ -10,11 +10,11 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Type</th>
-            <th scope="col">User Name</th>
-            <th scope="col">Date</th>
-            <th scope="col">Sum</th>
+            <th id="Id" scope="col">Id</th>
+            <th id="OtType" scope="col">Type</th>
+            <th id="sName" scope="col">User Name</th>
+            <th id="Date" scope="col">Date</th>
+            <th id="Sum" scope="col">Sum</th>
             @if (isAdmin)
             {
                 <th scope="col">Action</th>
@@ -41,12 +41,116 @@
         }
         </tbody>
     </table>
-      @if (isAdmin)
-      {
-          <div class="row mb-4">
-              <div class="offset-md-11">
-                  <a href="/Table/EditContract?create=true" class="link-success">Add</a>
-              </div>
-          </div>
-      }
+    @if (isAdmin)
+    {
+        <div class="row mb-4">
+            <div class="offset-md-11">
+                <a href="/Table/EditContract?create=true" class="link-success">Add</a>
+            </div>
+        </div>
+    }
 </div>
+<script type="text/javascript">
+    let sortId = document.getElementById("Id");
+	let sortOtType = document.getElementById("OtType");
+	let sortsName = document.getElementById("sName");
+    let sortDate = document.getElementById("Date");
+	let sortSum = document.getElementById("Sum");
+	let url = new URL(location.href);
+	
+    sortId.onclick = function(e) {
+		if (url.searchParams.has("mydb.contract.id"))
+        {
+            if (url.searchParams.get("mydb.contract.id") === "asc")
+            {
+				url.searchParams.set("mydb.contract.id", "desc");
+            }
+			else
+            {
+				url.searchParams.delete("mydb.contract.id");
+            }
+        }
+		else
+        {
+			url.searchParams.append("mydb.contract.id","asc");
+        }
+		console.log(url);
+		window.location.replace(url);
+    }
+    sortOtType.onclick = function(e) {
+		if (url.searchParams.has("ot.type"))
+        {
+            if (url.searchParams.get("ot.type") === "asc")
+            {
+                url.searchParams.set("ot.type", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("ot.type");
+            }
+        }
+        else
+        {
+            url.searchParams.append("ot.type","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+	}
+	sortsName.onclick = function(e) {
+        if (url.searchParams.has("s.name"))
+        {
+            if (url.searchParams.get("s.name") === "asc")
+            {
+                url.searchParams.set("s.name", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("s.name");
+            }
+        }
+        else
+        {
+            url.searchParams.append("s.name","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+    sortDate.onclick = function(e) {
+        if (url.searchParams.has("contract.cdate"))
+        {
+            if (url.searchParams.get("contract.cdate") === "asc")
+            {
+                url.searchParams.set("contract.cdate", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("contract.cdate");
+            }
+        }
+        else
+        {
+            url.searchParams.append("contract.cdate","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+	sortSum.onclick = function(e) {
+        if (url.searchParams.has("contract.sum"))
+        {
+            if (url.searchParams.get("contract.sum") === "asc")
+            {
+                url.searchParams.set("contract.sum", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("contract.sum");
+            }
+        }
+        else
+        {
+            url.searchParams.append("contract.sum","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+</script>

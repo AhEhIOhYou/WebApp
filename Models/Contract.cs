@@ -21,17 +21,21 @@ namespace WebApp.Models
 	
 	public static class ContractContext
 	{
-		public static List<Contract> GetAllContracts()
+		public static List<Contract> GetAllContracts(string sort)
 		{
 			MySqlConnection conn = DbConnection.Get_Connection();
 			conn.Open();
 			List<Contract> contractsList = new List<Contract>();
-
+			if (sort == "")
+				sort = "mydb.contract.id";
 			try
 			{
 				MySqlCommand cmd = new MySqlCommand();
 				cmd.Connection = conn;
-				cmd.CommandText = "call SelectContracts();";
+				cmd.CommandText = "SELECT mydb.contract.*, ot.type, s.name FROM mydb.contract " +
+								"JOIN mydb.operation_type ot on ot.id = contract.id_type " +
+								"JOIN mydb.staff s on s.id = contract.id_user " +
+								$"ORDER BY {sort};";
 
 				MySqlDataReader reader = cmd.ExecuteReader();
 				try

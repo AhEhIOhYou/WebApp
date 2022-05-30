@@ -10,8 +10,8 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
+            <th id="Id" scope="col">Id</th>
+            <th id="Type" scope="col">Type</th>
             @if (isAdmin)
             {
                 <th scope="col">Action</th>   
@@ -44,3 +44,47 @@
         </div>   
     }
 </div>
+<script type="text/javascript">
+    let sortId = document.getElementById("Id");
+	let sortType = document.getElementById("Type");
+	let url = new URL(location.href);
+	
+    sortId.onclick = function(e) {
+		if (url.searchParams.has("id"))
+        {
+            if (url.searchParams.get("id") === "asc")
+            {
+				url.searchParams.set("id", "desc");
+            }
+			else
+            {
+				url.searchParams.delete("id");
+            }
+        }
+		else
+        {
+			url.searchParams.append("id","asc");
+        }
+		console.log(url);
+		window.location.replace(url);
+    }
+    sortType.onclick = function(e) {
+		if (url.searchParams.has("type"))
+        {
+            if (url.searchParams.get("type") === "asc")
+            {
+                url.searchParams.set("type", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("type");
+            }
+        }
+        else
+        {
+            url.searchParams.append("type","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+	}
+</script>

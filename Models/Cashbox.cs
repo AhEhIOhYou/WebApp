@@ -12,17 +12,18 @@ namespace WebApp.Models
 
 	public class CashBoxContext : DbConx
 	{
-		public static List<CashBox> GetAllCashBox()
+		public static List<CashBox> GetAllCashBox(string sort)
 		{
 			MySqlConnection conn = DbConnection.Get_Connection();
 			conn.Open();
 			List<CashBox> cashBoxList = new List<CashBox>();
-			
+			if (sort == "")
+				sort = "id";
 			try
 			{
 				MySqlCommand cmd = new MySqlCommand();
 				cmd.Connection = conn;
-				cmd.CommandText = String.Format("SELECT * FROM cashbox");
+				cmd.CommandText = $"SELECT * FROM cashbox ORDER BY {sort}";
 
 				MySqlDataReader reader = cmd.ExecuteReader();
 				try

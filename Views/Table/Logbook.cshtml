@@ -10,10 +10,10 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Cashbox</th>
-            <th scope="col">Contract id</th>
-            <th scope="col">Date</th>
+            <th id="Id" scope="col">Id</th>
+            <th id="CashboxName" scope="col">Cashbox</th>
+            <th id="ContractId" scope="col">Contract id</th>
+            <th id="Date" scope="col">Date</th>
             @if (isAdmin)
             {
                 <th scope="col">Action</th>
@@ -48,3 +48,87 @@
         </div>
     }
 </div>
+<script type="text/javascript">
+    let sortId = document.getElementById("Id");
+	let sortCashboxName = document.getElementById("CashboxName");
+	let sortContractId = document.getElementById("ContractId");
+    let sortDate = document.getElementById("Date");
+	let url = new URL(location.href);
+	
+    sortId.onclick = function(e) {
+		if (url.searchParams.has("lb.id"))
+        {
+            if (url.searchParams.get("lb.id") === "asc")
+            {
+				url.searchParams.set("lb.id", "desc");
+            }
+			else
+            {
+				url.searchParams.delete("lb.id");
+            }
+        }
+		else
+        {
+			url.searchParams.append("lb.id","asc");
+        }
+		console.log(url);
+		window.location.replace(url);
+    }
+    sortCashboxName.onclick = function(e) {
+		if (url.searchParams.has("c.name"))
+        {
+            if (url.searchParams.get("c.name") === "asc")
+            {
+                url.searchParams.set("c.name", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("c.name");
+            }
+        }
+        else
+        {
+            url.searchParams.append("c.name","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+	}
+	sortContractId.onclick = function(e) {
+        if (url.searchParams.has("lb.id_contract"))
+        {
+            if (url.searchParams.get("lb.id_contract") === "asc")
+            {
+                url.searchParams.set("lb.id_contract", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("lb.id_contract");
+            }
+        }
+        else
+        {
+            url.searchParams.append("lb.id_contract","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+    sortDate.onclick = function(e) {
+        if (url.searchParams.has("lb.ldate"))
+        {
+            if (url.searchParams.get("lb.ldate") === "asc")
+            {
+                url.searchParams.set("lb.ldate", "desc");
+            }
+            else
+            {
+                url.searchParams.delete("lb.ldate");
+            }
+        }
+        else
+        {
+            url.searchParams.append("lb.ldate","asc");
+        }
+        console.log(url);
+        window.location.replace(url);
+    }
+</script>

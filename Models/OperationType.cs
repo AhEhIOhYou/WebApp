@@ -16,13 +16,16 @@ namespace WebApp.Models
 		{
 			MySqlConnection conn = DbConnection.Get_Connection();
 			conn.Open();
-
+			
+			if (sort == "")
+				sort = "id";
+			
 			List<OperationType> operationTypeList = new List<OperationType>();
 			try
 			{
 				MySqlCommand cmd = new MySqlCommand();
 				cmd.Connection = conn;
-				cmd.CommandText = String.Format("SELECT * FROM operation_type");
+				cmd.CommandText = $"SELECT * FROM operation_type ORDER BY {sort}";
 
 				MySqlDataReader reader = cmd.ExecuteReader();
 				try

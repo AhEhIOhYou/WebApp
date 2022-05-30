@@ -53,7 +53,7 @@ namespace WebApp.Controllers
 
 		public ActionResult Staff()
 		{
-			if (Request.QueryString["delete"] != null  && Request.QueryString["table"] != null)
+			if (Request.QueryString["delete"] != null && Request.QueryString["table"] != null)
 			{
 				context.DeleteById(
 					Request.QueryString["table"],
@@ -61,16 +61,16 @@ namespace WebApp.Controllers
 				);
 			}
 
-			if (Request.QueryString["sort"] != null)
+			var orderBy = Request.QueryString;
+			string query = " ";
+			foreach (string key in orderBy)
 			{
-				var allStaff = StaffContext.GetAllStaff(Request.QueryString["sort"]);
-				if (allStaff == null)
-				{
-					ViewBag.StaffList = StaffContext.GetAllStaff("");
-				}
+				query += key + " " + orderBy[key] + ",";
 			}
-			else
-				ViewBag.StaffList = StaffContext.GetAllStaff("");
+
+			query = query.Remove(query.Length - 1);
+			
+			ViewBag.StaffList = StaffContext.GetAllStaff(query);
 
 			return View();
 		}
@@ -104,7 +104,6 @@ namespace WebApp.Controllers
 			}
 			return RedirectToAction("Staff");
 		}
-		
 		public ActionResult OperationType()
 		{
 			if (Request.QueryString["delete"] != null  && Request.QueryString["table"] != null)
@@ -114,11 +113,16 @@ namespace WebApp.Controllers
 					Int32.Parse(Request.QueryString["delete"])
 				);
 			}
+			var orderBy = Request.QueryString;
+			string query = " ";
+			foreach (string key in orderBy)
+			{
+				query += key + " " + orderBy[key] + ",";
+			}
+
+			query = query.Remove(query.Length - 1);
 			
-			if (Request.QueryString["sort"] != null)
-				ViewBag.OperationTypeList = OperationTypeContext.GetAllOperationTypes(Request.QueryString["sort"]);
-			else
-				ViewBag.OperationTypeList = OperationTypeContext.GetAllOperationTypes("");
+			ViewBag.OperationTypeList = OperationTypeContext.GetAllOperationTypes(query);
 			
 			return View();
 		}
@@ -152,7 +156,6 @@ namespace WebApp.Controllers
 			}
 			return RedirectToAction("OperationType");
 		}
-
 		public ActionResult Contract()
 		{
 			if (Request.QueryString["delete"] != null  && Request.QueryString["table"] != null)
@@ -163,7 +166,17 @@ namespace WebApp.Controllers
 				);
 			}
 			
-			ViewBag.ContractsList = ContractContext.GetAllContracts();
+			var orderBy = Request.QueryString;
+			string query = " ";
+			foreach (string key in orderBy)
+			{
+				query += key + " " + orderBy[key] + ",";
+			}
+
+			query = query.Remove(query.Length - 1);
+
+			ViewBag.ContractsList = ContractContext.GetAllContracts(query);
+			
 			return View();
 		}
 		public ActionResult EditContract()
@@ -199,7 +212,6 @@ namespace WebApp.Controllers
 			}
 			return RedirectToAction("Contract");
 		}
-
 		public ActionResult Logbook()
 		{
 			if (Request.QueryString["delete"] != null  && Request.QueryString["table"] != null)
@@ -210,14 +222,24 @@ namespace WebApp.Controllers
 				);
 			}
 			
-			ViewBag.LogBookList = LogBookContext.GetAllLogBooks();
+			var orderBy = Request.QueryString;
+			string query = " ";
+			foreach (string key in orderBy)
+			{
+				query += key + " " + orderBy[key] + ",";
+			}
+
+			query = query.Remove(query.Length - 1);
+			
+			ViewBag.LogBookList = LogBookContext.GetAllLogBooks(query);
+			
 			return View();
 		}
 		public ActionResult EditLogBook()
 		{
 			ViewBag.Create = false;
-			ViewBag.CashBoxList = CashBoxContext.GetAllCashBox();
-			ViewBag.ContractList = ContractContext.GetAllContracts();
+			ViewBag.CashBoxList = CashBoxContext.GetAllCashBox("");
+			ViewBag.ContractList = ContractContext.GetAllContracts("");
 			
 			if (Request.QueryString["create"] == "true")
 			{
@@ -246,7 +268,6 @@ namespace WebApp.Controllers
 			}
 			return RedirectToAction("Logbook");
 		}
-		
 		public ActionResult Cashbox()
 		{
 			if (Request.QueryString["delete"] != null  && Request.QueryString["table"] != null)
@@ -257,7 +278,15 @@ namespace WebApp.Controllers
 				);
 			}
 			
-			ViewBag.CashBoxList = CashBoxContext.GetAllCashBox();
+			var orderBy = Request.QueryString;
+			string query = " ";
+			foreach (string key in orderBy)
+			{
+				query += key + " " + orderBy[key] + ",";
+			}
+
+			query = query.Remove(query.Length - 1);
+			ViewBag.CashBoxList = CashBoxContext.GetAllCashBox(query);
 			return View();
 		}
 		public ActionResult EditCashbox()

@@ -18,19 +18,20 @@ namespace WebApp.Models
 
 	public static class LogBookContext
 	{
-		public static List<LogBook> GetAllLogBooks()
+		public static List<LogBook> GetAllLogBooks(string sort)
 		{
 			MySqlConnection conn = DbConnection.Get_Connection();
 			conn.Open();
 			List<LogBook> logBooksList = new List<LogBook>();
-
+			if (sort == "")
+				sort = "lb.id";
 			try
 			{
 				MySqlCommand cmd = new MySqlCommand();
 				cmd.Connection = conn;
 				cmd.CommandText = "SELECT lb.*, c.name FROM logbook as lb " +
 									"JOIN cashbox c on c.id = lb.id_cashbox " +
-									"ORDER BY lb.id";
+									$"ORDER BY {sort}";
 
 				MySqlDataReader reader = cmd.ExecuteReader();
 				try
