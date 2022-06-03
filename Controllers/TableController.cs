@@ -45,8 +45,6 @@ namespace WebApp.Controllers
 				{
 					ViewBag.LogBook = result;
 				}
-
-				int k = 12;
 			}
 			return View();
 		}

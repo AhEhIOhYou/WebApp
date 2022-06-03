@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 
 namespace WebApp.Models
@@ -57,11 +59,13 @@ namespace WebApp.Models
 			{
 				MySqlCommand cmd = new MySqlCommand();
 				cmd.Connection = conn;
-
-				cmd.CommandText = "call CreateUser('Test1', 'asd', 'asd','def', 'asd');";
-				cmd.ExecuteNonQuery();
+				
+				cmd.CommandText = $"call CreateUser('{login}', '{pass}', '{userName}','{role}', '{salt}');";
+				MySqlDataReader reader = cmd.ExecuteReader();
+				reader.Read();
+				string res = reader[0].ToString();
 				conn.Close();
-				return true;
+				return res == "Success";
 			}
 			catch (MySqlException e)
 			{
